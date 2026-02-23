@@ -12,6 +12,51 @@ This repository provides:
 
 The engine is optimized for transparent loudness control, stereo integrity, and transient preservation while supporting reference matching and configurable mastering presets.
 
+## Ollama Cloud (Default) with Local Fallback
+
+AI routes (`/api/ai/recommend`, `/api/ai/mastering-director`, preflight advisor) use a cloud-first Ollama strategy aligned to the official API:
+
+- Chat endpoint: `POST /api/chat`
+- Cloud docs: https://docs.ollama.com/cloud
+- Chat docs: https://docs.ollama.com/api/chat
+- Auth docs: https://docs.ollama.com/api/authentication
+- Error/status docs: https://docs.ollama.com/api/errors
+
+Request order:
+
+1. If `AURALMIND_AI_BASE_URL` is set, only that endpoint is used (no fallback).
+2. Otherwise, cloud is attempted first (`OLLAMA_BASE_URL_CLOUD`, default `https://ollama.com`).
+3. Local Ollama is used as fallback (`OLLAMA_BASE_URL_LOCAL`, default `http://localhost:11434`).
+
+Fallback triggers:
+
+- Network/connectivity errors (including timeouts)
+- HTTP `401`, `403`, `429`
+- HTTP `5xx`
+
+No fallback is attempted for other `4xx` request-shape/validation errors (for example, malformed payloads).
+
+Model selection:
+
+- Cloud uses `AURALMIND_AI_MODEL` (default: `glm-5:cloud`)
+- Local fallback uses `AURALMIND_AI_MODEL_LOCAL` when set, otherwise it reuses `AURALMIND_AI_MODEL`
+
+Quick validation:
+
+```bash
+# 1) Cloud-first success (no fallback expected)
+curl -sS http://localhost:8000/api/health
+
+# 2) Force cloud failure then verify local fallback:
+#    set an invalid cloud URL and keep local Ollama running.
+export OLLAMA_BASE_URL_CLOUD=http://127.0.0.1:1
+```
+
+Expected behavior:
+
+- If local Ollama is healthy and model is available, AI responses still succeed.
+- If local model is missing, backend errors include guidance to set `AURALMIND_AI_MODEL_LOCAL`.
+
 ## Audio Engine Architecture Summary
 
 Processing flow (master bus):
