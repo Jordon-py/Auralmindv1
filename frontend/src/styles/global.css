@@ -7,8 +7,8 @@
   --surface-strong: rgba(10, 28, 46, 0.92);
   --line: rgba(142, 207, 230, 0.28);
   --line-strong: rgba(142, 207, 230, 0.6);
-  --text: #e6f7ff;
-  --muted: #9eb8c7;
+  --text: #ebf7ff;
+  --muted: #a7c1cf;
   --accent: #45d8ff;
   --accent-strong: #1cb2dd;
   --accent-warm: #ffb870;
@@ -33,6 +33,9 @@ body {
   margin: 0;
   font-family: 'Manrope', 'Segoe UI', sans-serif;
   color: var(--text);
+  line-height: 1.56;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   background:
     radial-gradient(900px 540px at 10% 18%, #11335f 0%, transparent 60%),
     radial-gradient(760px 580px at 90% 8%, #0f4f58 0%, transparent 62%),
@@ -44,11 +47,19 @@ h2,
 h3 {
   margin: 0;
   font-family: 'Chakra Petch', 'Manrope', sans-serif;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: 0.018em;
 }
 
 p {
   margin: 0;
+}
+
+small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
 a {

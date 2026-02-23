@@ -1,4 +1,0 @@
-2026-02-17 19:24:33,528 INFO auralmind: [master] preset=hi_fi_streaming  target=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\5683abf6a1ce4c1abb1171d945873b88\input\target.wav  reference=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\5683abf6a1ce4c1abb1171d945873b88\input\reference.mp3
-2026-02-17 19:24:39,072 INFO auralmind: [master] audio loaded sr=48000 dur=142.5s
-2026-02-17 19:37:06,104 INFO auralmind: [master] done LUFS=-17.12 TP=-1.00 dBFS GR=-7.65 dB runtime=752.58s
-Mastering complete

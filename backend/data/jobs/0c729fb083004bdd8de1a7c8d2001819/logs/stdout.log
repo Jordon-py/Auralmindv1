@@ -1,2 +1,0 @@
-2026-02-17 18:56:27,519 INFO auralmind: [master] preset=club  target=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\0c729fb083004bdd8de1a7c8d2001819\input\target.wav  reference=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\0c729fb083004bdd8de1a7c8d2001819\input\reference.mp3
-2026-02-17 18:56:30,332 INFO auralmind: [master] audio loaded sr=48000 dur=214.8s

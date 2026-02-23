@@ -9,8 +9,14 @@ This repository provides:
 - A mastering DSP engine (`auralmind_match_maestro_v7_3_expert1.py`)
 - A FastAPI backend (`backend/`) for upload, async job execution, status, report, and download APIs
 - Dockerized deployment with production-safe defaults and health checks
+- Upload controls with Demucs stem separation modes (`Auto`, `On`, `Off`) in Advanced settings
 
 The engine is optimized for transparent loudness control, stereo integrity, and transient preservation while supporting reference matching and configurable mastering presets.
+
+## Runtime Artifact Policy
+
+- `backend/data/jobs/` stores runtime job inputs, logs, reports, and rendered outputs.
+- These artifacts are intentionally not tracked in git and should be treated as local/runtime data only.
 
 ## Ollama Cloud (Default) with Local Fallback
 

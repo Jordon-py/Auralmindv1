@@ -11,6 +11,7 @@ export default function UploadPanel({ onSubmit, loading }) {
   const [target, setTarget] = useState(null);
   const [reference, setReference] = useState(null);
   const [preset, setPreset] = useState('hi_fi_streaming');
+  const [demucsMode, setDemucsMode] = useState('auto');
   const [monoSub, setMonoSub] = useState(true);
   const [dynamicEq, setDynamicEq] = useState(true);
   const [truepeakLimiter, setTruepeakLimiter] = useState(true);
@@ -21,7 +22,7 @@ export default function UploadPanel({ onSubmit, loading }) {
   const [sectionLiftMix, setSectionLiftMix] = useState('0.23');
   const [grooveTransientSculpting, setGrooveTransientSculpting] = useState(false);
   const [grooveTransientBoostDb, setGrooveTransientBoostDb] = useState('1.8');
-  const [outputPcmBits, setOutputPcmBits] = useState('24');
+  const [outputPcmBits, setOutputPcmBits] = useState('16');
   const [openAdvanced, setOpenAdvanced] = useState(false);
   const [formError, setFormError] = useState(null);
   const [dragActive, setDragActive] = useState(false);
@@ -43,8 +44,8 @@ export default function UploadPanel({ onSubmit, loading }) {
       return;
     }
     const parsedOutputPcmBits = parseInt(outputPcmBits, 10);
-    if (![16, 24].includes(parsedOutputPcmBits)) {
-      setFormError('Output bit depth must be 16-bit or 24-bit.');
+    if (![16, 24, 32, 64].includes(parsedOutputPcmBits)) {
+      setFormError('Output bit depth must be 16, 24, 32, or 64.');
       return;
     }
 
@@ -66,6 +67,11 @@ export default function UploadPanel({ onSubmit, loading }) {
       groove_transient_boost_db: grooveTransientSculpting ? parseFloat(grooveTransientBoostDb) : undefined,
       output_pcm_bits: parsedOutputPcmBits,
     };
+    if (demucsMode === 'on') {
+      settings.enable_demucs = true;
+    } else if (demucsMode === 'off') {
+      settings.enable_demucs = false;
+    }
     onSubmit(formData, settings);
   };
 
@@ -125,6 +131,15 @@ export default function UploadPanel({ onSubmit, loading }) {
 
         <details className="advanced" open={openAdvanced} onToggle={(e) => setOpenAdvanced(e.currentTarget.open)}>
           <summary>Advanced modules (defaults follow the preset)</summary>
+          <div className="field">
+            <label htmlFor="demucs-mode">Demucs stem separation</label>
+            <select id="demucs-mode" value={demucsMode} onChange={(e) => setDemucsMode(e.target.value)}>
+              <option value="auto">Auto (preset default)</option>
+              <option value="on">On</option>
+              <option value="off">Off</option>
+            </select>
+            <p className="auth-copy">On improves targeted processing but increases runtime.</p>
+          </div>
           <div className="field checkbox-group">
             <label>
               <input type="checkbox" checked={monoSub} onChange={(e) => setMonoSub(e.target.checked)} />
@@ -205,6 +220,8 @@ export default function UploadPanel({ onSubmit, loading }) {
             <select id="output-pcm-bits" value={outputPcmBits} onChange={(e) => setOutputPcmBits(e.target.value)}>
               <option value="16">16-bit PCM (recommended, widest compatibility)</option>
               <option value="24">24-bit PCM (higher resolution)</option>
+              <option value="32">32-bit float (studio/DAW, limited device support)</option>
+              <option value="64">64-bit float (archival/DAW, not for device playback)</option>
             </select>
           </div>
         </details>

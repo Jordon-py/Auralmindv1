@@ -136,7 +136,7 @@ export default function AppHome() {
       <div className="app-home-layout">
         <section className="app-home-card app-home-hero">
           <div className="app-home-topline">
-            <span className="app-home-topline-tag">Next-Gen Mastering Ops</span>
+            <span className="app-home-topline-tag">Mastering Ops</span>
             <Link className="app-home-topline-link" to="/">
               View Landing
             </Link>
@@ -147,7 +147,7 @@ export default function AppHome() {
               <p className="auth-eyebrow">AuralMind Workspace</p>
               <h1>Mastering Console</h1>
               <p className="app-home-hero-copy">
-                Upload tracks, monitor processing stages, and inspect mastering output from one control surface.
+                Upload, monitor, and export masters from one workspace.
               </p>
             </div>
             <div className="app-home-hero-actions">
@@ -214,12 +214,12 @@ export default function AppHome() {
           </div>
           <ol className="app-home-pipeline-list">
             <li>Upload target and optional reference</li>
-            <li>Apply preset and advanced processing modules</li>
-            <li>Monitor queue progress and stage detail in real time</li>
-            <li>Inspect logs, report, and download final master</li>
+            <li>Select preset and optional advanced modules</li>
+            <li>Track queue progress with live stage updates</li>
+            <li>Review logs/report and download the final master</li>
           </ol>
           <p className="app-home-ops-note">
-            Tip: select a preset first, then open Advanced modules only if you need manual control.
+            Tip: start with a preset, then open Advanced only for manual overrides.
           </p>
         </section>
 
@@ -244,7 +244,7 @@ export default function AppHome() {
         {!selectedJob && (
           <section className="app-home-card app-home-detail-placeholder">
             <h2 className="app-home-section-title">Inspector</h2>
-            <p className="auth-copy">Select a job row to inspect progress logs and mastering report details.</p>
+            <p className="auth-copy">Select a job to inspect logs, stage progress, and report output.</p>
             {recentJobs.length > 0 && (
               <ul className="app-home-recent-list">
                 {recentJobs.map((job) => (
