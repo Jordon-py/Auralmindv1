@@ -1,2 +1,0 @@
-2026-02-17 18:56:27,913 INFO auralmind: [master] preset=radio_loud  target=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\5a48aa2bb6f94417a292df9b5cd811b2\input\target.wav  reference=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\5a48aa2bb6f94417a292df9b5cd811b2\input\reference.mp3
-2026-02-17 18:56:30,698 INFO auralmind: [master] audio loaded sr=48000 dur=214.8s

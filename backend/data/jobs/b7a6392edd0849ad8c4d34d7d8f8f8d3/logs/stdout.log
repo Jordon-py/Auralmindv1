@@ -1,2 +1,0 @@
-2026-02-17 18:05:40,388 INFO auralmind: [master] preset=cinematic  target=C:\Users\goku\Documents\SS-hangman-game\backend\data\jobs\b7a6392edd0849ad8c4d34d7d8f8f8d3\input\target.wav  reference=None
-2026-02-17 18:05:41,460 INFO auralmind: [master] audio loaded sr=48000 dur=159.6s

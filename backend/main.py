@@ -9,6 +9,7 @@ creation, status polling and retrieval of outputs and reports.
 
 from __future__ import annotations
 
+import os
 from collections import deque
 import json
 import logging
