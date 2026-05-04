@@ -103,7 +103,13 @@ export async function createJob(formData, settings) {
     multipart.append(key, value);
   }
   multipart.append('settings_json', JSON.stringify(settings));
-  return await apiFetch('/api/jobs', { method: 'POST', body: multipart });
+  // Uploads stream the full audio file and may hit a cold-started backend,
+  // so allow well beyond the default 30s before aborting.
+  return await apiFetch('/api/jobs', {
+    method: 'POST',
+    body: multipart,
+    timeout: 10 * 60 * 1000,
+  });
 }
 
 export async function fetchJobStatus(id, options = {}) {
@@ -124,7 +130,7 @@ export async function cancelJob(id) {
 }
 
 export async function downloadOutput(id) {
-  const res = await apiFetch(`/api/jobs/${id}/download`);
+  const res = await apiFetch(`/api/jobs/${id}/download`, { timeout: 5 * 60 * 1000 });
   const blob = await res.blob();
   const filename =
     res.headers.get('content-disposition')?.split('filename=')[1] || `master_${id}.wav`;
