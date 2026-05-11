@@ -5,7 +5,7 @@ Pydantic models defining request and response shapes for the API.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -21,6 +21,30 @@ class JobSettings(BaseModel):
     target_lufs: Optional[float] = Field(default=None, description="Desired integrated loudness estimate.")
     true_peak_ceiling: float = Field(default=-1.0, description="Limiter output ceiling in dBTP.")
     warmth: float = Field(default=0.0, ge=0.0, le=100.0, description="Analog-style warmth from 0 to 100%.")
+    section_aware_mastering: Optional[bool] = Field(
+        default=None,
+        description="Enable section-aware hook lift processing (verse vs hook with guarded transitions).",
+    )
+    section_lift_mix: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=0.65,
+        description="Wet mix for section-aware hook enhancement (0.0 to 0.65).",
+    )
+    groove_transient_sculpting: Optional[bool] = Field(
+        default=None,
+        description="Enable groove-locked transient sculpting to enhance rhythmic attacks.",
+    )
+    groove_transient_boost_db: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=3.5,
+        description="Transient boost ceiling in dB for groove sculpting (0.0 to 3.5).",
+    )
+    output_pcm_bits: Literal[16, 24] = Field(
+        default=16,
+        description="Output WAV PCM bit depth for device compatibility (16 or 24).",
+    )
 
 
 class JobCreateResponse(BaseModel):

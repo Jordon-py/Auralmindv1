@@ -17,6 +17,11 @@ export default function UploadPanel({ onSubmit, loading }) {
   const [warmth, setWarmth] = useState(0);
   const [targetLufs, setTargetLufs] = useState('');
   const [truePeakCeiling, setTruePeakCeiling] = useState('-1.0');
+  const [sectionAwareMastering, setSectionAwareMastering] = useState(false);
+  const [sectionLiftMix, setSectionLiftMix] = useState('0.2');
+  const [grooveTransientSculpting, setGrooveTransientSculpting] = useState(false);
+  const [grooveTransientBoostDb, setGrooveTransientBoostDb] = useState('1.8');
+  const [outputPcmBits, setOutputPcmBits] = useState('16');
   const [openAdvanced, setOpenAdvanced] = useState(false);
   const [formError, setFormError] = useState(null);
   const [dragActive, setDragActive] = useState(false);
@@ -50,6 +55,11 @@ export default function UploadPanel({ onSubmit, loading }) {
       warmth: parseFloat(warmth),
       target_lufs: targetLufs ? parseFloat(targetLufs) : undefined,
       true_peak_ceiling: truePeakCeiling ? parseFloat(truePeakCeiling) : -1.0,
+      section_aware_mastering: sectionAwareMastering,
+      section_lift_mix: sectionAwareMastering ? parseFloat(sectionLiftMix) : undefined,
+      groove_transient_sculpting: grooveTransientSculpting,
+      groove_transient_boost_db: grooveTransientSculpting ? parseFloat(grooveTransientBoostDb) : undefined,
+      output_pcm_bits: parseInt(outputPcmBits, 10),
     };
     onSubmit(formData, settings);
   };
@@ -145,6 +155,52 @@ export default function UploadPanel({ onSubmit, loading }) {
               <label htmlFor="truepeak">True Peak Ceiling (dBTP)</label>
               <input id="truepeak" type="number" step="0.1" value={truePeakCeiling} onChange={(e) => setTruePeakCeiling(e.target.value)} />
             </div>
+          </div>
+
+          <div className="field checkbox-group">
+            <label>
+              <input type="checkbox" checked={sectionAwareMastering} onChange={(e) => setSectionAwareMastering(e.target.checked)} />
+              Section-aware mastering (hook lift, guard-railed)
+            </label>
+            <label>
+              <input type="checkbox" checked={grooveTransientSculpting} onChange={(e) => setGrooveTransientSculpting(e.target.checked)} />
+              Groove-locked transient sculpting
+            </label>
+          </div>
+          <div className="field field-grid">
+            <div>
+              <label htmlFor="section-lift-mix">Section lift mix (0.00–0.65)</label>
+              <input
+                id="section-lift-mix"
+                type="number"
+                min="0"
+                max="0.65"
+                step="0.01"
+                value={sectionLiftMix}
+                onChange={(e) => setSectionLiftMix(e.target.value)}
+                disabled={!sectionAwareMastering}
+              />
+            </div>
+            <div>
+              <label htmlFor="groove-boost-db">Transient boost cap (dB)</label>
+              <input
+                id="groove-boost-db"
+                type="number"
+                min="0"
+                max="3.5"
+                step="0.1"
+                value={grooveTransientBoostDb}
+                onChange={(e) => setGrooveTransientBoostDb(e.target.value)}
+                disabled={!grooveTransientSculpting}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label htmlFor="output-pcm-bits">WAV output bit depth (device compatibility)</label>
+            <select id="output-pcm-bits" value={outputPcmBits} onChange={(e) => setOutputPcmBits(e.target.value)}>
+              <option value="16">16-bit PCM (recommended, widest compatibility)</option>
+              <option value="24">24-bit PCM (higher resolution)</option>
+            </select>
           </div>
         </details>
 

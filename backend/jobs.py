@@ -123,6 +123,20 @@ class JobManager:
             warmth = max(0.0, min(float(job.settings.warmth), 100.0)) / 100.0
             cmd.extend(["--warmth", f"{warmth:.4f}"])
 
+        if job.settings.section_aware_mastering is True:
+            if job.settings.section_lift_mix is not None:
+                cmd.extend(["--hooklift-mix", str(job.settings.section_lift_mix)])
+        elif job.settings.section_aware_mastering is False:
+            cmd.append("--no-hooklift")
+
+        if job.settings.groove_transient_sculpting is False:
+            cmd.extend(["--transient-mix", "0.0"])
+        elif job.settings.groove_transient_boost_db is not None:
+            cmd.extend(["--transient-boost", str(job.settings.groove_transient_boost_db)])
+
+        out_subtype = "PCM_16" if int(job.settings.output_pcm_bits) == 16 else "PCM_24"
+        cmd.extend(["--out-subtype", out_subtype])
+
         env = os.environ.copy()
         log_file = open(job.log_path, "w", encoding="utf-8")
         try:
